@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- https://taetae0079.tistory.com/5?category=790789  -->
+	<!-- https://codevang.tistory.com/266?category=857253 -->
+	<s:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
+			
+		<!-- 정적 리소스는 모두 접근 허용 -->
+		<s:intercept-url pattern="/resources/**" access="permitAll" />
+
+		<s:intercept-url pattern="/dbTest" requires-channel="http" access="permitAll" />
+		<s:intercept-url pattern="/egovSampleList*" requires-channel="https" access="permitAll" />
+
+		<!-- 로그인된 상태에서는 로그인이나 회원가입 화면에 접근 못하도록 함 -->
+		<s:intercept-url pattern="/loginView" access="isAnonymous()" />
+		<s:intercept-url pattern="/registerUserView" access="isAnonymous()" />
+
+		<!-- 관리자페이지는 관리자만 접근 허용 -->
+		<s:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<s:intercept-url pattern="/member/**" access="hasRole('ROLE_USER')" /> 
+
+		<!-- 로그인 설정 -->
+		
+		<s:form-login login-page="/customLogin.do"
+			login-processing-url="/user/login" 
+			authentication-success-handler-ref="customLoginSuccessHandler"
+			authentication-failure-handler-ref="customLoginFailureHandler"
+			username-parameter="email" password-parameter="passwd" />
+			
+		<!-- 로그아웃 설정 -->
+		<s:logout 
+			logout-url="/logout"
+			logout-success-url="/"
+			invalidate-session="true"
+			delete-cookies="true" />
+			
+		<s:port-mappings>
+		    <s:port-mapping http="8088" https="8443"/>
+		</s:port-mappings>
+		
+		<!-- 중복 로그인을 방지하기 위한 설정이다. -->
+	  	<s:session-management>
+        	<s:concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
+        </s:session-management>
+		
+		<!-- 권한이 없어서 금지된 URI 접속할 때 보여줄 페이지(403 에러 페이지 대체) -->
+		<s:access-denied-handler ref="customAccessDenied"/>
+		
+	</s:http>
+
+
+	<!-- SHA256 적용 --> 
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"> 
+		<constructor-arg value="256" /> 
+		<property name="encodeHashAsBase64" value="true" /> 
+	</bean>
+	
+	<bean id="passwordEncoder2"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<bean id="customAccessDenied" class="project.custom.security.CustomAccessDeniedHandler"></bean>
+	<bean id="customLoginSuccessHandler" class="project.custom.security.CustomLoginSuccessHandler" />
+	<bean id="customLoginFailureHandler" class="project.custom.security.CustomLoginFailureHandler" />
+	<!-- <bean id="userService" class="project.user.service.UserAuthenticationService" /> -->
+
+<!-- 
+	<s:authentication-manager>
+		<s:authentication-provider user-service-ref="userService">
+			<s:password-encoder ref="passwordEncoder">
+				<s:salt-source user-property="username"/>
+			</s:password-encoder>
+		</s:authentication-provider>
+	</s:authentication-manager> -->
+	
+	<s:authentication-manager>
+		<s:authentication-provider ref="userLoginAuthenticationProvider">
+		</s:authentication-provider>
+	</s:authentication-manager>
+
+</beans>

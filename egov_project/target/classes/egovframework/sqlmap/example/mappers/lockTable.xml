@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.LockTableServiceMapper">
+
+
+	<update id="updateSample" parameterType="java.util.HashMap">
+	/* updateSample */ 
+		UPDATE lock_table
+			SET use_yn = #{useYn}
+		  WHERE ID = #{id}
+	</update>
+
+	<select id="selectSample" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	/* selectSample */
+		SELECT
+			ID, check_data_time , email , use_yn
+		FROM lock_table
+		WHERE email=#{email}
+	</select>
+
+
+</mapper>
