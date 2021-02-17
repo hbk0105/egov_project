@@ -4,7 +4,7 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d %5p (%13F:%L) | %m%n" />
         </Console>
-       <!--  <RollingFile name="file" fileName="/sangslmslog/adm.log" filePattern="/sangslmslog/adm.log.%d{yyyy-MM-dd}">
+       <!--  <RollingFile name="file" fileName="/access.log" filePattern="/access.log.%d{yyyy-MM-dd}">
             <PatternLayout pattern="%d %5p [%c{1}.%M(%L)] - %m%n" />
             <Policies>
                 <TimeBasedTriggeringPolicy />
@@ -12,10 +12,6 @@
         </RollingFile> -->
     </Appenders>
     <Loggers>
-        <Logger name="com.sangs" level="DEBUG" additivity="false">
-            <AppenderRef ref="console" />
-           <!--  <AppenderRef ref="file" /> -->
-        </Logger>
         <Logger name="com.webapp" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
            <!--  <AppenderRef ref="file" /> -->
