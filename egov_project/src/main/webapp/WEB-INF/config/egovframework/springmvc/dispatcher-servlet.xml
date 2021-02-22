@@ -52,7 +52,11 @@
         <property name="paramName" value="language" />
     </bean>
 
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!--
+		https://blog.naver.com/PostView.nhn?blogId=mk1126sj&logNo=221012388523&proxyReferer=https:%2F%2Fwww.google.com%2F
+		https://springsource.tistory.com/7
+	 -->
+    <!-- <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmmn/egovError"/>
         <property name="exceptionMappings">
             <props>
@@ -62,7 +66,7 @@
                 <prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
             </props>
         </property>
-    </bean>
+    </bean> -->
 
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
@@ -89,6 +93,5 @@
 		 </mvc:interceptor> 
 	</mvc:interceptors> 
 	
-
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
 </beans>

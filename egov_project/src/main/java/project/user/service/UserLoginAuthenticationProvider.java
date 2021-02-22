@@ -20,6 +20,7 @@ import project.user.vo.UserDetailsVO;
 import project.util.ShaEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+// https://codevang.tistory.com/269
 @Service
 public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 
