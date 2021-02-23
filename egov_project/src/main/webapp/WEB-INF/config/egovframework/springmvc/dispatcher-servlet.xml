@@ -37,6 +37,19 @@
 			</list>
 		</property>
 		<!-- 데이터 map 커스텀 2 방법 -->
+		<!-- 
+		 <property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+				<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" >
+				    <property name = "supportedMediaTypes">
+					    <list>
+					        <value>*/*;charset=UTF-8</value>					        
+					    </list>
+					</property>	
+					</bean>
+			</list>
+		</property> -->
     </bean>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
@@ -92,6 +105,15 @@
 			 <bean class="egovframework.interceptor.CommonInterceptor" /> 
 		 </mvc:interceptor> 
 	</mvc:interceptors> 
-	
+	<!-- 
+	<bean id="htmlEscapingObjectMapper" class="project.filter.HtmlEscapingObjectMapperFactory" />
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+                <property name="objectMapper" ref="htmlEscapingObjectMapper" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+	  -->
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
 </beans>

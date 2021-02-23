@@ -13,12 +13,14 @@
 			
 		<!-- 정적 리소스는 모두 접근 허용 -->
 		<s:intercept-url pattern="/resources/**" access="permitAll" />
+		
+		<s:intercept-url pattern="/ajaxTest.do" access="permitAll" />
 
 		<s:intercept-url pattern="/dbTest" requires-channel="http" access="permitAll" />
 		<s:intercept-url pattern="/egovSampleList*" requires-channel="https" access="permitAll" />
 
 		<!-- 로그인된 상태에서는 로그인이나 회원가입 화면에 접근 못하도록 함 -->
-		<s:intercept-url pattern="/customLogin.do" access="isAnonymous()" />
+		<s:intercept-url pattern="/customLogin.do" access="permitAll" />
 		<s:intercept-url pattern="/test.do" access="permitAll" />
 
 		<!-- 관리자페이지는 관리자만 접근 허용 -->
@@ -51,6 +53,8 @@
 		
 		<!-- 권한이 없어서 금지된 URI 접속할 때 보여줄 페이지(403 에러 페이지 대체) -->
 		<s:access-denied-handler ref="customAccessDenied"/>
+		
+		<!-- <s:csrf disabled="true"/> -->
 		
 	</s:http>
 
